@@ -1,2 +1,2 @@
-https://github.com/shivai/cdond-c3-projectstarter
-http://udapeople-0464486a-0473-4dde-8921-f6016a6d445e.s3-website-us-east-1.amazonaws.com
+https://github.com/shanidemo/cdond-c3-projectstarter
+http://udapeople-b215aefd-9bee-4d1e-a6a6-7ab013503677.s3-website-us-east-1.amazonaws.com
