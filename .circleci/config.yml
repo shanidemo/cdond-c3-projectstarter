@@ -269,6 +269,8 @@ jobs:
             cd .circleci/ansible
             echo "running deploy backend playbook ...."
             ansible-playbook -i hosts deploy-backend.yml
+            echo "install node exporter"
+            ansible-playbook -i hosts install_node_axporter.yml
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID}
   smoke-test:
