@@ -187,7 +187,10 @@ jobs:
           command: |
             cd backend
             npm install
+            echo "run migration ..."
             npm run migrations > migrations_dump.txt
+            echo "migrations dump content ..."
+            cat migrations_dump.txt
       - run:
           name: Send migration results to memstash
           command: |
@@ -215,10 +218,16 @@ jobs:
       - run:
           name: Get backend url
           command: |
+            echo "export backend ip ..."
             export BACKEND_IP=$(aws ec2 describe-instances  --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:project,Values=backend" --output text)
+            echo "after exporting backend ip"
+            echo $BACKEND_IP
+            echo "ecport api url ..."
             export API_URL="http://${BACKEND_IP}:3030"
+            echo "after exporting api url ..."
             echo "${API_URL}"
-            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+            echo "API_URL=http://${BACKEND_IP}:3030" > frontend/.env
+            echo "env content is: "
             cat frontend/.env
       - run:
           name: Deploy frontend objects
