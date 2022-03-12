@@ -131,14 +131,14 @@ jobs:
               --template-file .circleci/files/backend.yml \
               --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID} \
               --parameter-overrides ID=${CIRCLE_WORKFLOW_ID} \
-              --tags project=backend
+              --tags project=backend-${CIRCLE_WORKFLOW_ID}
       - run:
           name: Add back-end ip to ansible inventory
           command: |
             pwd
             ls -lh .circleci/ansible
             cat .circleci/ansible/hosts
-            aws ec2 describe-instances  --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:project,Values=backend" --output text >> .circleci/ansible/hosts
+            aws ec2 describe-instances  --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:project,Values=backend-${CIRCLE_WORKFLOW_ID}" --output text > .circleci/ansible/hosts
             cat .circleci/ansible/hosts
             yum install -y tar gzip
       - persist_to_workspace:
@@ -219,7 +219,7 @@ jobs:
           name: Get backend url
           command: |
             echo "export backend ip ..."
-            export BACKEND_IP=$(aws ec2 describe-instances  --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:project,Values=backend" --output text)
+            export BACKEND_IP=$(aws ec2 describe-instances  --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:project,Values=backend-${CIRCLE_WORKFLOW_ID}" --output text)
             echo "after exporting backend ip"
             echo $BACKEND_IP
             echo "ecport api url ..."
@@ -227,7 +227,7 @@ jobs:
             echo "after exporting api url ..."
             echo "${API_URL}"
             echo "API_URL=http://${BACKEND_IP}:3030" > frontend/.env
-            echo "env content is: "
+            echo "env content is:"
             cat frontend/.env
       - run:
           name: Deploy frontend objects
@@ -269,8 +269,8 @@ jobs:
             cd .circleci/ansible
             echo "running deploy backend playbook ...."
             ansible-playbook -i hosts deploy-backend.yml
-            echo "install node exporter"
-            ansible-playbook -i hosts install_node_axporter.yml
+            #echo "install node exporter"
+            #ansible-playbook -i hosts install_node_exporter.yml
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID}
   smoke-test:
