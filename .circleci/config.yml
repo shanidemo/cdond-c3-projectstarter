@@ -138,7 +138,7 @@ jobs:
             pwd
             ls -lh .circleci/ansible
             cat .circleci/ansible/hosts
-            aws ec2 describe-instances  --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:project,Values=backend-${CIRCLE_WORKFLOW_ID}" --output text > .circleci/ansible/hosts
+            aws ec2 describe-instances  --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:project,Values=backend-${CIRCLE_WORKFLOW_ID}" --output text >> .circleci/ansible/hosts
             cat .circleci/ansible/hosts
             yum install -y tar gzip
       - persist_to_workspace:
