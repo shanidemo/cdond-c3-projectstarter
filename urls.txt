@@ -1,2 +1,2 @@
 https://github.com/shanidemo/cdond-c3-projectstarter
-http://udapeople-b215aefd-9bee-4d1e-a6a6-7ab013503677.s3-website-us-east-1.amazonaws.com
+http://udapeople-bb123273-dd45-4fb9-acaa-b679a527d460.s3-website-us-east-1.amazonaws.com/#/employees
